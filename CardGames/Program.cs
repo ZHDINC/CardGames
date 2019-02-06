@@ -10,6 +10,18 @@ namespace CardGames
     {
         static void Main(string[] args)
         {
+            Deck blanky = new Deck();
+            Console.Write("Enter Player Name: ");
+            string name = Console.ReadLine();
+            Player player = new Player(name);
+            GameState blackjack = new GameState(blanky, player);
+            bool continueplay = true;
+            while(continueplay)
+            {
+                blackjack.Turn();
+                Console.Write("Continue playing? ");
+                continueplay = Boolean.Parse(Console.ReadLine());
+            }
         }
     }
 }
