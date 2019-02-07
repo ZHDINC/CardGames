@@ -8,16 +8,15 @@ namespace CardGames
 {
     class GameState
     {
-        private Deck deck;
+        private Deck deck = new Deck();
         private Player player;
         private Dealer dealer = new Dealer();
         private string hiddensecondcard;
         private bool playerbust = false;
         private bool dealerbust = false;
 
-        public GameState(Deck deck, Player player)
+        public GameState(Player player)
         {
-            this.deck = deck;
             this.player = player;
         }
 
@@ -105,7 +104,7 @@ namespace CardGames
             }
             return Dealer.Sum;
         }
-        public void Turn()
+        public bool Turn()
         {
             int blackjack = DealerInitialTurn();
             bool playerturn = true;
@@ -118,17 +117,20 @@ namespace CardGames
             int dealersum = DealerTurn();
             Console.WriteLine("Player's Card Sum is: {0}", playersum);
             Console.WriteLine("Dealer's Card Sum is: {0}", dealersum);
-            if((dealersum > playersum || playerbust) && !dealerbust)
+            if((dealersum > playersum && !dealerbust) || playerbust)
             {
-                Console.WriteLine("Dealer Wins!");
+                Console.Write("You Lost! ");
+                if(playerbust)
+                    Console.WriteLine("You busted!");
+                Console.WriteLine();
             }
             else if (dealersum < playersum || dealerbust)
             {
-                Console.WriteLine("Player Wins!");
+                Console.WriteLine("You Win!");
             }
             else
             {
-                Console.WriteLine("It's a tie!");
+                Console.WriteLine("Tie!");
             }
             Dealer.Sum = 0;
             Player.Sum = 0;
@@ -137,6 +139,35 @@ namespace CardGames
             dealerbust = false;
             playerbust = false;
             Deck.CardsNoLongerInPlay();
+            Console.Write("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
+            bool correctinput = false;
+            int choice = 1;
+            while (!correctinput)
+            {
+                try
+                {
+                    choice = Int32.Parse(Console.ReadLine());
+                    correctinput = true;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("I asked for a number!");
+                }
+            }
+            switch(choice)
+            {
+                case 1:
+                    return true;
+                case 2:
+                    return false;
+                case 3:
+                    Console.WriteLine("Don't let it get to you...");
+                    return false;
+                default:
+                    Console.WriteLine("Not sure how to interpret that other than a ragequit...");
+                    return false;
+
+            }
         }
     }
 }

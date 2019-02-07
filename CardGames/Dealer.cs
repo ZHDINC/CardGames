@@ -51,7 +51,7 @@ namespace CardGames
 
         public void GetCard(Deck current)
         {
-            Console.WriteLine("Dealer Sum = {0}.", Sum);
+            //Console.WriteLine("Dealer Sum = {0}.", Sum);
             bool normaldraw = true;
             (int drawn, string name, string suit) = current.DrawCard();
             if(name == "Ace" && highAce == false && currentsum < 11)

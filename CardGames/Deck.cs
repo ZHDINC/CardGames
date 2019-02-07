@@ -11,7 +11,6 @@ namespace CardGames
         private int[] Cards = CreateCards();
         private bool[] drawnStatus = new bool[52];
         private bool[] currentlyInPlay = new bool[52];
-        private bool allcardsdrawn = false;
         private int cardcount = 52;
 
         private static int[] CreateCards()
@@ -154,6 +153,7 @@ namespace CardGames
             {
                 for (int i = 0; i < drawnStatus.Length; i++)
                     drawnStatus[i] = false;
+                cardcount = 52;
             }
         }
 

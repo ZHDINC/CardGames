@@ -58,7 +58,7 @@ namespace CardGames
             {
                 currentsum += secondcard;
             }
-            Console.WriteLine("Player Cards: {0} of {1} and {2} of {3}", firstcardname, firstcardsuit, secondcardname, secondcardsuit);
+            Console.WriteLine("{4} Cards: {0} of {1} and {2} of {3}", firstcardname, firstcardsuit, secondcardname, secondcardsuit, name);
         }
 
         public void GetCard(Deck current)
@@ -71,7 +71,7 @@ namespace CardGames
                 highAce = true;
                 normaldraw = false;
             }
-            Console.WriteLine("You drew: {0} of {1}", name, suit);
+            Console.WriteLine("{2} drew: {0} of {1}", name, suit, this.name);
             if(normaldraw)
                 currentsum += drawn;
             if(currentsum > 21 && highAce == true)
