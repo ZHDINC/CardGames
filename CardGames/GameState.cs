@@ -10,7 +10,7 @@ namespace CardGames
     {
         private Deck deck = new Deck();
         private Player player;
-        private Dealer dealer = new Dealer();
+        private Dealer dealer = new Dealer("Dealer");
         private string hiddensecondcard;
         private bool playerbust = false;
         private bool dealerbust = false;
@@ -45,8 +45,8 @@ namespace CardGames
         public int PlayerTurn(bool playerplay)
         {
             
-            Player.GetInitialCards(deck);
-                
+            string s = Player.GetInitialCards(deck);
+            Console.WriteLine(s);    
             int choice;
             while (playerplay)
             {
@@ -139,7 +139,7 @@ namespace CardGames
             dealerbust = false;
             playerbust = false;
             Deck.CardsNoLongerInPlay();
-            Console.Write("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
+            Console.WriteLine("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
             bool correctinput = false;
             int choice = 1;
             while (!correctinput)
