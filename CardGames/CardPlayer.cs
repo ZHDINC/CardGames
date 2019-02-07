@@ -43,7 +43,7 @@ namespace CardGames
             }
             Console.WriteLine("{2}'s First Card: {0} of {1}.", firstcardname, firstcardsuit, this.name);
             (int secondcard, string secondcardname, string secondcardsuit) = current.DrawCard();
-            if (secondcardsuit == "Ace" && !highAce)
+            if (secondcardname == "Ace" && !highAce)
             {
                 currentsum += 11;
                 highAce = true;
