@@ -38,30 +38,43 @@ namespace CardGames
             Console.Write(betText, Funds);
             int cursorPosition = betText.Length;
             bool possibleBet = false;
-            try
+            bool formatexception = false;
+            while (!possibleBet)
             {
-                while (!possibleBet)
+                try
                 {
                     Bet = Int32.Parse(Console.ReadLine());
-                    if(Bet > Funds)
-                    {
-                        Console.SetCursorPosition(0, 16);
-                        Console.WriteLine("You can't spend money you don't have!");
-                        Console.SetCursorPosition(cursorPosition, 15);
-                        Console.Write("           ");
-                        Console.SetCursorPosition(cursorPosition, 15);
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(0, 16);
-                        Console.WriteLine("                                     ");
-                        possibleBet = true;
-                    }
+                    formatexception = false;
                 }
-            }
-            catch(FormatException)
-            {
-                Console.WriteLine("Invalid input. ");
+                catch(FormatException)
+                {
+                    formatexception = true;
+                    Console.SetCursorPosition(0, 16);
+                    Console.Write("                                             ");
+                    Console.SetCursorPosition(0, 16);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("You can only bet with digits!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.SetCursorPosition(cursorPosition, 15);
+                    Console.Write("                       ");
+                    Console.SetCursorPosition(cursorPosition, 15);
+                }
+                if(Bet > Funds && !formatexception)
+                {
+                    Console.SetCursorPosition(0, 16);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("You can't spend money you don't have!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.SetCursorPosition(cursorPosition, 15);
+                    Console.Write("           ");
+                    Console.SetCursorPosition(cursorPosition, 15);
+                }
+                else if(!formatexception)
+                {
+                    Console.SetCursorPosition(0, 16);
+                    Console.WriteLine("                                     ");
+                    possibleBet = true;
+                }
             }
             Funds -= Bet;
         }

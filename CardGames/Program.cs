@@ -10,6 +10,7 @@ namespace CardGames
     {
         static void Main(string[] args)
         {
+            Console.Title = "Blackjack";
             for (int i = 0; i < 35; i++)
                 Console.Write("-");
             Console.Write("BLACKJACK");

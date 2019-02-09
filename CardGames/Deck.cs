@@ -97,7 +97,7 @@ namespace CardGames
             {
                 currentcard -= 26;
                 cardname = GetSpecialName(currentcard);
-                suit = "Clover";
+                suit = "Clubs";
                 if(currentcard > 10)
                 {
                     currentcard = 10;

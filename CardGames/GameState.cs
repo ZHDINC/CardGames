@@ -48,7 +48,7 @@ namespace CardGames
             string s = Player.GetInitialCards(deck);
             Console.SetCursorPosition(Player.ColumnPosition, 3);
             Console.Write(s);    
-            int choice;
+            int choice = 2;
             while (playerplay)
             {
                 Console.SetCursorPosition(0, 15);
@@ -56,7 +56,29 @@ namespace CardGames
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("Your current sum: {0}", player.Sum);
                 Console.WriteLine("1. Hit 2. Stay");
-                choice = Int32.Parse(Console.ReadLine());
+                Console.Write("               ");
+                Console.SetCursorPosition(0, 17);
+                bool choicenotmade = false;
+                while (!choicenotmade)
+                {
+                    try
+                    {
+                        choice = Int32.Parse(Console.ReadLine());
+                        choicenotmade = true;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.SetCursorPosition(0, 18);
+                        Console.Write("                                 ");
+                        Console.SetCursorPosition(0, 18);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Not digit 1 or 2...");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.SetCursorPosition(0, 17);
+                        Console.Write("                            ");
+                        Console.SetCursorPosition(0, 17);
+                    }
+                }
                 switch (choice)
                 {
                     case 1:
@@ -71,6 +93,8 @@ namespace CardGames
                         playerplay = false;
                         break;
                 }
+                Console.SetCursorPosition(0, 18);
+                Console.Write("                             ");
             }
             return Player.Sum;
         }
@@ -82,7 +106,9 @@ namespace CardGames
                 Console.SetCursorPosition(0, 4);
                 Console.Write("             ");
                 Console.SetCursorPosition(0, 4);
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("BLACKJACK!");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             return Dealer.Sum;
         }
@@ -133,11 +159,11 @@ namespace CardGames
             Console.SetCursorPosition(0, 20);
             Console.Write("                                  ");
             Console.SetCursorPosition(0, 20);
-            Console.Write("Player's Card Sum is: {0}", playersum);
+            Console.Write("{1}'s Card Sum is: {0}", playersum, Player.Name);
             Console.SetCursorPosition(0, 21);
             Console.Write("                                  ");
             Console.SetCursorPosition(0, 21);
-            Console.Write("Dealer's Card Sum is: {0}", dealersum);
+            Console.Write("{1}'s Card Sum is: {0}", dealersum, Dealer.Name);
             if((dealersum > playersum && !dealerbust) || playerbust)
             {
                 Player.Lost();
@@ -180,12 +206,20 @@ namespace CardGames
                 {
                     try
                     {
+                        Console.SetCursorPosition(0, 18);
+                        Console.Write("                               ");
+                        Console.SetCursorPosition(0, 18);
                         choice = Int32.Parse(Console.ReadLine());
                         correctinput = true;
                     }
                     catch (FormatException)
                     {
+                        Console.SetCursorPosition(0, 19);
+                        Console.Write("                                  ");
+                        Console.SetCursorPosition(0, 19);
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("I asked for a number!");
+                        Console.ForegroundColor = ConsoleColor.Gray;
                     }
                 }
             }
@@ -204,7 +238,7 @@ namespace CardGames
                     return false;
                 
                 default:
-                    Console.WriteLine("Not sure how to interpret that other than a ragequit...");
+                    Console.WriteLine("Provided Invalid Choice. Terminating...");
                     return false;
 
             }
