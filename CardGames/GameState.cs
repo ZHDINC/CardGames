@@ -46,10 +46,14 @@ namespace CardGames
         {
             
             string s = Player.GetInitialCards(deck);
-            Console.WriteLine(s);    
+            Console.SetCursorPosition(Player.ColumnPosition, 3);
+            Console.Write(s);    
             int choice;
             while (playerplay)
             {
+                Console.SetCursorPosition(0, 15);
+                Console.Write("                                 ");
+                Console.SetCursorPosition(0, 15);
                 Console.WriteLine("Your current sum: {0}", player.Sum);
                 Console.WriteLine("1. Hit 2. Stay");
                 choice = Int32.Parse(Console.ReadLine());
@@ -75,7 +79,10 @@ namespace CardGames
             HiddenString = Dealer.GetInitialCards(deck);
             if (Dealer.Sum == 21)
             {
-                Console.WriteLine("Dealer got Blackjack!");
+                Console.SetCursorPosition(0, 4);
+                Console.Write("             ");
+                Console.SetCursorPosition(0, 4);
+                Console.WriteLine("BLACKJACK!");
             }
             return Dealer.Sum;
         }
@@ -106,6 +113,13 @@ namespace CardGames
         }
         public bool Turn()
         {
+            Dealer.ColumnPosition = 0;
+            Console.SetCursorPosition(Dealer.ColumnPosition, 1);
+            Console.Write(Dealer.Name);
+            Player.ColumnPosition = 20;
+            Console.SetCursorPosition(Player.ColumnPosition, 1);
+            Console.Write(Player.Name);
+            Player.PlayerBet();
             int blackjack = DealerInitialTurn();
             bool playerturn = true;
             if(blackjack == 21)
@@ -113,24 +127,31 @@ namespace CardGames
                 playerturn = false;
             }
             int playersum = PlayerTurn(playerturn);
-            Console.WriteLine(HiddenString);
+            Console.SetCursorPosition(Dealer.ColumnPosition, 3);
+            Console.Write(HiddenString);
             int dealersum = DealerTurn();
-            Console.WriteLine("Player's Card Sum is: {0}", playersum);
-            Console.WriteLine("Dealer's Card Sum is: {0}", dealersum);
+            Console.SetCursorPosition(0, 20);
+            Console.Write("                                  ");
+            Console.SetCursorPosition(0, 20);
+            Console.Write("Player's Card Sum is: {0}", playersum);
+            Console.SetCursorPosition(0, 21);
+            Console.Write("                                  ");
+            Console.SetCursorPosition(0, 21);
+            Console.Write("Dealer's Card Sum is: {0}", dealersum);
             if((dealersum > playersum && !dealerbust) || playerbust)
             {
-                Console.Write("You Lost! ");
+                Player.Lost();
                 if(playerbust)
                     Console.WriteLine("You busted!");
                 Console.WriteLine();
             }
             else if (dealersum < playersum || dealerbust)
             {
-                Console.WriteLine("You Win!");
+                Player.Win();
             }
             else
             {
-                Console.WriteLine("Tie!");
+                Player.Tie();
             }
             Dealer.Sum = 0;
             Player.Sum = 0;
@@ -138,21 +159,39 @@ namespace CardGames
             Dealer.HighAce = false;
             dealerbust = false;
             playerbust = false;
+            Dealer.CardRowPosition = 0;
+            Player.CardRowPosition = 0;
             Deck.CardsNoLongerInPlay();
-            Console.WriteLine("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
             bool correctinput = false;
             int choice = 1;
-            while (!correctinput)
+            bool choiceNotSkipped = true;
+            if (Player.Funds <= 0)
             {
-                try
+                choice = Player.LostTheGame();
+                choiceNotSkipped = false;
+            }
+            else
+            {
+                Console.SetCursorPosition(0, 17);
+                Console.Write("                                                ");
+                Console.SetCursorPosition(0, 17);
+                Console.WriteLine("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
+                while (!correctinput)
                 {
-                    choice = Int32.Parse(Console.ReadLine());
-                    correctinput = true;
+                    try
+                    {
+                        choice = Int32.Parse(Console.ReadLine());
+                        correctinput = true;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("I asked for a number!");
+                    }
                 }
-                catch (FormatException)
-                {
-                    Console.WriteLine("I asked for a number!");
-                }
+            }
+            if (choiceNotSkipped)
+            {
+                ScreenOperations.ClearGameScreen();
             }
             switch(choice)
             {
@@ -163,6 +202,7 @@ namespace CardGames
                 case 3:
                     Console.WriteLine("Don't let it get to you...");
                     return false;
+                
                 default:
                     Console.WriteLine("Not sure how to interpret that other than a ragequit...");
                     return false;

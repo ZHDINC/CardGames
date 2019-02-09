@@ -10,7 +10,9 @@ namespace CardGames
     {
         private int currentsum = 0;
         private bool highAce = false;
+        private int columnPosition;
         private string name;
+        private int cardRowPosition = 0;
 
         public CardPlayer(string name)
         {
@@ -29,6 +31,22 @@ namespace CardGames
             set { highAce = value; }
         }
 
+        public int ColumnPosition
+        {
+            get { return columnPosition; }
+            set { columnPosition = value; }
+        }
+
+        public int CardRowPosition
+        {
+            get { return cardRowPosition; }
+            set { cardRowPosition = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
         public virtual string GetInitialCards(Deck current)
         {
             (int firstcard, string firstcardname, string firstcardsuit) = current.DrawCard();
@@ -41,7 +59,8 @@ namespace CardGames
             {
                 currentsum += firstcard;
             }
-            Console.WriteLine("{2}'s First Card: {0} of {1}.", firstcardname, firstcardsuit, this.name);
+            Console.SetCursorPosition(ColumnPosition, 2);
+            Console.Write("{0} of {1}", firstcardname, firstcardsuit, this.name);
             (int secondcard, string secondcardname, string secondcardsuit) = current.DrawCard();
             if (secondcardname == "Ace" && !highAce)
             {
@@ -52,7 +71,7 @@ namespace CardGames
             {
                 currentsum += secondcard;
             }
-            string secondcardstring = $"{this.name}'s Second Card: {secondcardname} of {secondcardsuit}";
+            string secondcardstring = $"{secondcardname} of {secondcardsuit}";
             return secondcardstring;
         }
 
@@ -66,7 +85,9 @@ namespace CardGames
                 highAce = true;
                 normaldraw = false;
             }
-            Console.WriteLine("{2} drew: {0} of {1}", name, suit, this.name);
+            Console.SetCursorPosition(ColumnPosition, 4 + CardRowPosition);
+            Console.Write("{0} of {1}", name, suit, this.name);
+            CardRowPosition++;
             if (normaldraw)
                 currentsum += drawn;
             if (currentsum > 21 && highAce == true)
