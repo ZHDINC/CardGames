@@ -8,9 +8,16 @@ namespace CardGames
 {
     class Dealer : CardPlayer
     {
+        private ConsoleColor hidden;
         public Dealer(string name) : base(name)
         {
 
+        }
+
+        public ConsoleColor Hidden
+        {
+            get { return hidden; }
+            set { hidden = value; }
         }
     }
 }

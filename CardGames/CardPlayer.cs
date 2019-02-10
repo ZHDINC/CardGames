@@ -49,7 +49,7 @@ namespace CardGames
         }
         public virtual string GetInitialCards(Deck current)
         {
-            (int firstcard, string firstcardname, string firstcardsuit) = current.DrawCard();
+            (int firstcard, string firstcardname, string firstcardsuit, ConsoleColor firstcolor) = current.DrawCard();
             if (firstcardname == "Ace")
             {
                 currentsum += 11;
@@ -60,8 +60,11 @@ namespace CardGames
                 currentsum += firstcard;
             }
             Console.SetCursorPosition(ColumnPosition, 2);
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = firstcolor;
             Console.Write("{0} of {1}", firstcardname, firstcardsuit, this.name);
-            (int secondcard, string secondcardname, string secondcardsuit) = current.DrawCard();
+            (int secondcard, string secondcardname, string secondcardsuit, ConsoleColor secondcolor) = current.DrawCard();
+            Console.ForegroundColor = secondcolor;
             if (secondcardname == "Ace" && !highAce)
             {
                 currentsum += 11;
@@ -78,15 +81,19 @@ namespace CardGames
         public virtual void GetCard(Deck current)
         {
             bool normaldraw = true;
-            (int drawn, string name, string suit) = current.DrawCard();
+            (int drawn, string name, string suit, ConsoleColor color) = current.DrawCard();
             if (name == "Ace" && highAce == false && currentsum < 11)
             {
                 currentsum += 11;
                 highAce = true;
                 normaldraw = false;
             }
+            Console.ForegroundColor = color;
+            Console.BackgroundColor = ConsoleColor.White;
             Console.SetCursorPosition(ColumnPosition, 4 + CardRowPosition);
             Console.Write("{0} of {1}", name, suit, this.name);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
             CardRowPosition++;
             if (normaldraw)
                 currentsum += drawn;

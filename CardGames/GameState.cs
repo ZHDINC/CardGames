@@ -47,7 +47,9 @@ namespace CardGames
             
             string s = Player.GetInitialCards(deck);
             Console.SetCursorPosition(Player.ColumnPosition, 3);
-            Console.Write(s);    
+            Console.Write(s);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
             int choice = 2;
             while (playerplay)
             {
@@ -101,6 +103,8 @@ namespace CardGames
         public int DealerInitialTurn()
         {
             HiddenString = Dealer.GetInitialCards(deck);
+            ConsoleColor hiddenColor = Console.ForegroundColor;
+            Dealer.Hidden = hiddenColor;
             if (Dealer.Sum == 21)
             {
                 Console.SetCursorPosition(0, 4);
@@ -154,7 +158,11 @@ namespace CardGames
             }
             int playersum = PlayerTurn(playerturn);
             Console.SetCursorPosition(Dealer.ColumnPosition, 3);
+            Console.ForegroundColor = Dealer.Hidden;
+            Console.BackgroundColor = ConsoleColor.White;
             Console.Write(HiddenString);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
             int dealersum = DealerTurn();
             Console.SetCursorPosition(0, 20);
             Console.Write("                                  ");

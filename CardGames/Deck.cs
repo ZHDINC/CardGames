@@ -66,21 +66,23 @@ namespace CardGames
             return -1;
         }
 
-        public (int, string, string) DrawCard()
+        public (int, string, string, ConsoleColor) DrawCard()
         {
             int currentcard = DrawActualCard();
             string cardname = "";
             string suit = "";
+            ConsoleColor color = ConsoleColor.Black;
             if(currentcard >= 1 && currentcard <= 13)
             {
                 
                 cardname = GetSpecialName(currentcard);
                 suit = "Hearts";
+                color = ConsoleColor.Red;
                 if(currentcard > 10)
                 {
                     currentcard = 10;
                 }
-                return (currentcard, cardname, suit);
+                return (currentcard, cardname, suit, color);
             }
             if (currentcard >= 14 && currentcard <= 26)
             {
@@ -91,7 +93,7 @@ namespace CardGames
                 {
                     currentcard = 10;
                 }
-                return (currentcard, cardname, suit);
+                return (currentcard, cardname, suit, color);
             }
             if(currentcard >= 27 && currentcard <= 39)
             {
@@ -102,20 +104,21 @@ namespace CardGames
                 {
                     currentcard = 10;
                 }
-                return (currentcard, cardname, suit);
+                return (currentcard, cardname, suit, color);
             }
             if(currentcard >= 40 && currentcard <= 52)
             {
                 currentcard -= 39;
                 cardname = GetSpecialName(currentcard);
                 suit = "Diamonds";
+                color = ConsoleColor.Red;
                 if(currentcard > 10)
                 {
                     currentcard = 10;
                 }
-                return (currentcard, cardname, suit);
+                return (currentcard, cardname, suit, color);
             }
-            return (-1, "Failed", "Failed");
+            return (-1, "Failed", "Failed", ConsoleColor.Gray);
         }
         
         public int GetCardActualIndex(string name, int value)
