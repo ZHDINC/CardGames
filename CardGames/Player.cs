@@ -31,9 +31,7 @@ namespace CardGames
 
         public void PlayerBet()
         {
-            Console.SetCursorPosition(0, 15);
-            Console.Write("                                           ");
-            Console.SetCursorPosition(0, 15);
+            ScreenOperations.ClearGameLine(0, 15, 43);
             string betText = ($"You have ${Funds}. Bet: ");
             Console.Write(betText, Funds);
             int cursorPosition = betText.Length;
@@ -49,15 +47,11 @@ namespace CardGames
                 catch(FormatException)
                 {
                     formatexception = true;
-                    Console.SetCursorPosition(0, 16);
-                    Console.Write("                                             ");
-                    Console.SetCursorPosition(0, 16);
+                    ScreenOperations.ClearGameLine(0, 16, 45);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("You can only bet with digits!");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.SetCursorPosition(cursorPosition, 15);
-                    Console.Write("                       ");
-                    Console.SetCursorPosition(cursorPosition, 15);
+                    ScreenOperations.ClearGameLine(cursorPosition, 15, 23);
                 }
                 if(Bet > Funds && !formatexception)
                 {
@@ -65,9 +59,7 @@ namespace CardGames
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("You can't spend money you don't have!");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.SetCursorPosition(cursorPosition, 15);
-                    Console.Write("           ");
-                    Console.SetCursorPosition(cursorPosition, 15);
+                    ScreenOperations.ClearGameLine(cursorPosition, 15, 11);
                 }
                 else if(!formatexception)
                 {
@@ -81,9 +73,7 @@ namespace CardGames
 
         public void Win()
         {
-            Console.SetCursorPosition(0, 15);
-            Console.Write("                                       ");
-            Console.SetCursorPosition(0, 15);
+            ScreenOperations.ClearGameLine(0, 15, 39);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("You won the hand! You received ${0}!", Bet * 2);
             Funds += Bet * 2;
@@ -95,9 +85,7 @@ namespace CardGames
 
         public void Lost()
         {
-            Console.SetCursorPosition(0, 15);
-            Console.Write("                                       ");
-            Console.SetCursorPosition(0, 15);
+            ScreenOperations.ClearGameLine(0, 15, 39);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("You lost the hand! You lost ${0}", Bet);
             Console.Write("                                 ");
@@ -108,9 +96,7 @@ namespace CardGames
 
         public void Tie()
         {
-            Console.SetCursorPosition(0, 15);
-            Console.Write("                                       ");
-            Console.SetCursorPosition(0, 15);
+            ScreenOperations.ClearGameLine(0, 15, 39);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("You tied the dealer! Got bet back!");
             Console.Write("                                    ");

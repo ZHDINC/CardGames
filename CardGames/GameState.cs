@@ -53,9 +53,7 @@ namespace CardGames
             int choice = 2;
             while (playerplay)
             {
-                Console.SetCursorPosition(0, 15);
-                Console.Write("                                 ");
-                Console.SetCursorPosition(0, 15);
+                ScreenOperations.ClearGameLine(0, 15, 33);
                 Console.WriteLine("Your current sum: {0}", player.Sum);
                 Console.WriteLine("1. Hit 2. Stay");
                 Console.Write("               ");
@@ -70,15 +68,11 @@ namespace CardGames
                     }
                     catch (FormatException)
                     {
-                        Console.SetCursorPosition(0, 18);
-                        Console.Write("                                 ");
-                        Console.SetCursorPosition(0, 18);
+                        ScreenOperations.ClearGameLine(0, 18, 33);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("Not digit 1 or 2...");
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.SetCursorPosition(0, 17);
-                        Console.Write("                            ");
-                        Console.SetCursorPosition(0, 17);
+                        ScreenOperations.ClearGameLine(0, 17, 28);
                     }
                 }
                 switch (choice)
@@ -95,8 +89,7 @@ namespace CardGames
                         playerplay = false;
                         break;
                 }
-                Console.SetCursorPosition(0, 18);
-                Console.Write("                             ");
+                ScreenOperations.ClearGameLine(0, 18, 29);
             }
             return Player.Sum;
         }
@@ -107,9 +100,7 @@ namespace CardGames
             Dealer.Hidden = hiddenColor;
             if (Dealer.Sum == 21)
             {
-                Console.SetCursorPosition(0, 4);
-                Console.Write("             ");
-                Console.SetCursorPosition(0, 4);
+                ScreenOperations.ClearGameLine(0, 4, 13);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("BLACKJACK!");
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -164,13 +155,9 @@ namespace CardGames
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
             int dealersum = DealerTurn();
-            Console.SetCursorPosition(0, 20);
-            Console.Write("                                  ");
-            Console.SetCursorPosition(0, 20);
+            ScreenOperations.ClearGameLine(0, 20, 34);
             Console.Write("{1}'s Card Sum is: {0}", playersum, Player.Name);
-            Console.SetCursorPosition(0, 21);
-            Console.Write("                                  ");
-            Console.SetCursorPosition(0, 21);
+            ScreenOperations.ClearGameLine(0, 21, 34);
             Console.Write("{1}'s Card Sum is: {0}", dealersum, Dealer.Name);
             if((dealersum > playersum && !dealerbust) || playerbust)
             {
@@ -206,25 +193,19 @@ namespace CardGames
             }
             else
             {
-                Console.SetCursorPosition(0, 17);
-                Console.Write("                                                ");
-                Console.SetCursorPosition(0, 17);
+                ScreenOperations.ClearGameLine(0, 17, 48);
                 Console.WriteLine("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
                 while (!correctinput)
                 {
                     try
                     {
-                        Console.SetCursorPosition(0, 18);
-                        Console.Write("                               ");
-                        Console.SetCursorPosition(0, 18);
+                        ScreenOperations.ClearGameLine(0, 18, 31);
                         choice = Int32.Parse(Console.ReadLine());
                         correctinput = true;
                     }
                     catch (FormatException)
                     {
-                        Console.SetCursorPosition(0, 19);
-                        Console.Write("                                  ");
-                        Console.SetCursorPosition(0, 19);
+                        ScreenOperations.ClearGameLine(0, 19, 34);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("I asked for a number!");
                         Console.ForegroundColor = ConsoleColor.Gray;

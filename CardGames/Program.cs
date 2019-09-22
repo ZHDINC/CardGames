@@ -19,8 +19,7 @@ namespace CardGames
             Console.SetCursorPosition(0, 15);
             Console.Write("Enter Player Name: ");
             string name = Console.ReadLine();
-            Console.SetCursorPosition(0, 15);
-            Console.Write("                                                 ");
+            ScreenOperations.ClearGameLine(0, 15, 49);
             Player player = new Player(name);
             GameState blackjack = new GameState(player);
             while (blackjack.Turn()) ;
