@@ -19,14 +19,14 @@ namespace CardGames
             bool successfulGameLoad = false;
             if(loadgame == 'Y')
             {
-                DataContractSerializer dcsGameState = new DataContractSerializer(typeof(GameState));
-                FileStream fs = new FileStream("gamestate.xml", FileMode.Open);
-                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-                savedGame = (GameState)dcsGameState.ReadObject(reader);
-                fs.Close();
+                Console.Write("Input filename to load: ");
+                string filename = Console.ReadLine();
+                savedGame = LoadSavedGame(filename);
                 successfulGameLoad = true;
             }
             Console.Title = "Blackjack";
+            ScreenOperations.ClearGameScreen();
+            Console.SetCursorPosition(0, 0);
             for (int i = 0; i < 35; i++)
                 Console.Write("-");
             Console.Write("BLACKJACK");
@@ -46,17 +46,36 @@ namespace CardGames
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs, Encoding.UTF8);
                 dcsGameState.WriteObject(xdw, blackjack);
                 xdw.Flush();
+                fs.Close();
             }
             else
             {
                 while (savedGame.Turn()) ;
-                FileStream fs = new FileStream("gamestate.xml", FileMode.Create);
-                DataContractSerializer dcsGameState = new DataContractSerializer(typeof(GameState));
-                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs, Encoding.UTF8);
-                dcsGameState.WriteObject(xdw, savedGame);
-                xdw.Flush();
+                Console.WriteLine("If you wish to save, input save file name: ");
+                string filename = Console.ReadLine();
+                SaveGameState(filename, savedGame);
             }
             Console.ReadLine();
+        }
+
+        static GameState LoadSavedGame(string filename)
+        {
+            DataContractSerializer dcsGameState = new DataContractSerializer(typeof(GameState));
+            FileStream fs = new FileStream(filename, FileMode.Open);
+            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            GameState savedGame = (GameState)dcsGameState.ReadObject(reader);
+            fs.Close();
+            return savedGame;
+        }
+
+        static void SaveGameState(string filename, GameState savedGame)
+        {
+            FileStream fs = new FileStream(filename, FileMode.Create);
+            DataContractSerializer dcsGameState = new DataContractSerializer(typeof(GameState));
+            XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs, Encoding.UTF8);
+            dcsGameState.WriteObject(xdw, savedGame);
+            xdw.Flush();
+            fs.Close();
         }
     }
 }
