@@ -41,12 +41,9 @@ namespace CardGames
                 Player player = new Player(name);
                 GameState blackjack = new GameState(player);
                 while (blackjack.Turn()) ;
-                FileStream fs = new FileStream("gamestate.xml", FileMode.Create);
-                DataContractSerializer dcsGameState = new DataContractSerializer(typeof(GameState));
-                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs, Encoding.UTF8);
-                dcsGameState.WriteObject(xdw, blackjack);
-                xdw.Flush();
-                fs.Close();
+                Console.WriteLine("If you wish to save, input save file name: ");
+                string filename = Console.ReadLine();
+                SaveGameState(filename, blackjack);
             }
             else
             {
