@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace CardGames
 {
+    [DataContract]
+    [KnownType(typeof(Player))]
+    [KnownType(typeof(Dealer))]
     abstract class CardPlayer
-    {
+    { 
+        [DataMember]
         private int currentsum = 0;
+        [DataMember]
         private bool highAce = false;
+        [DataMember]
         private int columnPosition;
+        [DataMember]
         private string name;
+        [DataMember]
         private int cardRowPosition = 0;
 
         public CardPlayer(string name)

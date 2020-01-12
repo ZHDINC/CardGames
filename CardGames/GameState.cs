@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.IO;
 
 namespace CardGames
 {
+    [DataContract]
     class GameState
     {
-        private Deck deck = new Deck();
+        [DataMember]
+        private Deck deck;
+        [DataMember]
         private Player player;
+        [DataMember]
         private Dealer dealer = new Dealer("Dealer");
         private string hiddensecondcard;
         private bool playerbust = false;
@@ -18,6 +25,12 @@ namespace CardGames
         public GameState(Player player)
         {
             this.player = player;
+            deck = new Deck();
+        }
+
+        public GameState()
+        {
+            dealer = new Dealer("Dealer");
         }
 
         public Player Player

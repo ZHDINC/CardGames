@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CardGames
 {
+    [DataContract]
     class Deck
     {
+        [DataMember]
         private int[] Cards = CreateCards();
+        [DataMember]
         private bool[] drawnStatus = new bool[52];
+        [DataMember]
         private bool[] currentlyInPlay = new bool[52];
+        [DataMember]
         private int cardcount = 52;
 
         private static int[] CreateCards()

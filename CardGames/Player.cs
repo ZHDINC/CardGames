@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CardGames
 {
+    [DataContract]
     class Player : CardPlayer
     {
+        [DataMember]
         private int currentfunds = 100;
         private int bet = 0;
+        [DataMember]
         private string name;
 
         public Player(string name) : base(name)
