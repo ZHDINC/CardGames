@@ -57,6 +57,15 @@ namespace CardGames
                     Console.ForegroundColor = ConsoleColor.Gray;
                     ScreenOperations.ClearGameLine(cursorPosition, 15, 23);
                 }
+                catch(OverflowException)
+                {
+                    formatexception = true;
+                    ScreenOperations.ClearGameLine(0, 16, 45);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("This bet is too large (and you don't have those funds anyhow)!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    ScreenOperations.ClearGameLine(cursorPosition, 15, 23);
+                }
                 if(Bet > Funds && !formatexception)
                 {
                     Console.SetCursorPosition(0, 16);
@@ -65,7 +74,7 @@ namespace CardGames
                     Console.ForegroundColor = ConsoleColor.Gray;
                     ScreenOperations.ClearGameLine(cursorPosition, 15, 11);
                 }
-                if(Bet < 0)
+                else if(Bet < 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("You can't bet a negative amount!");

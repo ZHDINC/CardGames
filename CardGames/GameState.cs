@@ -68,7 +68,15 @@ namespace CardGames
             {
                 ScreenOperations.ClearGameLine(0, 15, 33);
                 Console.WriteLine("Your current sum: {0}", player.Sum);
-                Console.WriteLine("1. Hit 2. Stay");
+                Console.Write("1. Hit 2. Stay ");
+                bool canDouble = false;
+                int doubledBet = player.Bet * 2;
+                int fundsBeforeBet = player.Bet + player.Funds;
+                if (doubledBet <= fundsBeforeBet)
+                {
+                    Console.Write("3. Double");
+                    canDouble = true;
+                }
                 Console.Write("               ");
                 Console.SetCursorPosition(0, 17);
                 bool choicenotmade = false;
@@ -77,13 +85,16 @@ namespace CardGames
                     try
                     {
                         choice = Int32.Parse(Console.ReadLine());
-                        choicenotmade = true;
+                        if (choice == 3 && canDouble == false)
+                            choicenotmade = false;
+                        else
+                            choicenotmade = true;
                     }
                     catch (FormatException)
                     {
                         ScreenOperations.ClearGameLine(0, 18, 33);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("Not digit 1 or 2...");
+                        Console.Write("Not digit 1, 2, or 3...");
                         Console.ForegroundColor = ConsoleColor.Gray;
                         ScreenOperations.ClearGameLine(0, 17, 28);
                     }
@@ -100,6 +111,14 @@ namespace CardGames
                         break;
                     case 2:
                         playerplay = false;
+                        break;
+                    case 3:
+                        player.Funds -= player.Bet;
+                        player.Bet *= 2;
+                        player.GetCard(deck);
+                        playerplay = false;
+                        if (Player.Sum > 21)
+                            playerbust = true;
                         break;
                 }
                 ScreenOperations.ClearGameLine(0, 18, 29);
