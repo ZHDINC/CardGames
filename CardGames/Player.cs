@@ -65,6 +65,13 @@ namespace CardGames
                     Console.ForegroundColor = ConsoleColor.Gray;
                     ScreenOperations.ClearGameLine(cursorPosition, 15, 11);
                 }
+                if(Bet < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("You can't bet a negative amount!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    ScreenOperations.ClearGameLine(cursorPosition, 15, 25);
+                }
                 else if(!formatexception)
                 {
                     Console.SetCursorPosition(0, 16);

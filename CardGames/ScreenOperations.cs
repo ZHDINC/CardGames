@@ -13,7 +13,11 @@ namespace CardGames
             Console.SetCursorPosition(0, 2);
             for (int i = 0; i <= 20; i++)
             {
-                Console.WriteLine("                                               ");
+                int numspaces = Console.BufferWidth;
+                for (int j = 0; j < numspaces; j++)
+                {
+                    Console.Write(" ");
+                }
             }
         }
 
