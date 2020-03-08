@@ -30,5 +30,15 @@ namespace CardGames
             }
             Console.SetCursorPosition(xPosition, yPosition);
         }
+
+        public static void DebugView(string PlayerString)
+        {
+            int currentCursorPositionX = Console.CursorLeft;
+            int currentCursorPositionY = Console.CursorTop;
+            Console.SetCursorPosition(0, 25);
+            ClearGameLine(0, 25, Console.BufferWidth);
+            Console.WriteLine(PlayerString);
+            Console.SetCursorPosition(currentCursorPositionX, currentCursorPositionY);
+        }
     }
 }

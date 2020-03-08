@@ -115,12 +115,14 @@ namespace CardGames
                     case 3:
                         player.Funds -= player.Bet;
                         player.Bet *= 2;
+                        ScreenOperations.DebugView(player.ToString());
                         player.GetCard(deck);
                         playerplay = false;
                         if (Player.Sum > 21)
                             playerbust = true;
                         break;
                 }
+                ScreenOperations.DebugView(player.ToString());
                 ScreenOperations.ClearGameLine(0, 18, 29);
             }
             return Player.Sum;
@@ -227,6 +229,7 @@ namespace CardGames
             {
                 ScreenOperations.ClearGameLine(0, 17, 48);
                 Console.WriteLine("Continue playing? 1. Yes 2. No 3. NOOOOOO!!!");
+                ScreenOperations.DebugView(player.ToString());
                 while (!correctinput)
                 {
                     try

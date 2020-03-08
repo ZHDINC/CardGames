@@ -58,54 +58,67 @@ namespace CardGames
         }
         public virtual string GetInitialCards(Deck current)
         {
-            (int firstcard, string firstcardname, string firstcardsuit, ConsoleColor firstcolor) = current.DrawCard();
-            if (firstcardname == "Ace")
+            Card firstCard = current.DrawCard();
+            if (firstCard.CardValue == "Ace")
             {
                 currentsum += 11;
                 highAce = true;
             }
+            else if(firstCard.CardValue == "Jack" || firstCard.CardValue == "Queen" || firstCard.CardValue == "King")
+            {
+                currentsum += 10;
+            }
             else
             {
-                currentsum += firstcard;
+                currentsum += firstCard.CardRawValue;
             }
             Console.SetCursorPosition(ColumnPosition, 2);
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = firstcolor;
-            Console.Write("{0} of {1}", firstcardname, firstcardsuit, this.name);
-            (int secondcard, string secondcardname, string secondcardsuit, ConsoleColor secondcolor) = current.DrawCard();
-            Console.ForegroundColor = secondcolor;
-            if (secondcardname == "Ace" && !highAce)
+            Console.BackgroundColor = firstCard.BackgroundColor;
+            Console.ForegroundColor = firstCard.ForegroundColor;
+            Console.Write("{0} of {1}", firstCard.CardValue, firstCard.SuitValue);
+            Card secondCard = current.DrawCard();
+            Console.BackgroundColor = secondCard.BackgroundColor;
+            Console.ForegroundColor = secondCard.ForegroundColor;
+            if (secondCard.CardValue == "Ace" && !highAce)
             {
                 currentsum += 11;
                 highAce = true;
             }
+            else if (secondCard.CardValue == "Jack" || secondCard.CardValue == "Queen" || secondCard.CardValue == "King")
+            {
+                currentsum += 10;
+            }
             else
             {
-                currentsum += secondcard;
+                currentsum += secondCard.CardRawValue;
             }
-            string secondcardstring = $"{secondcardname} of {secondcardsuit}";
+            string secondcardstring = $"{secondCard.CardValue} of {secondCard.SuitValue}";
             return secondcardstring;
         }
 
         public virtual void GetCard(Deck current)
         {
             bool normaldraw = true;
-            (int drawn, string name, string suit, ConsoleColor color) = current.DrawCard();
-            if (name == "Ace" && highAce == false && currentsum < 11)
+            Card currentCard = current.DrawCard();
+            if (currentCard.CardValue == "Ace" && highAce == false && currentsum < 11)
             {
                 currentsum += 11;
                 highAce = true;
                 normaldraw = false;
             }
-            Console.ForegroundColor = color;
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = currentCard.ForegroundColor;
+            Console.BackgroundColor = currentCard.BackgroundColor;
             Console.SetCursorPosition(ColumnPosition, 4 + CardRowPosition);
-            Console.Write("{0} of {1}", name, suit, this.name);
+            Console.Write("{0} of {1}", currentCard.CardValue, currentCard.SuitValue, this.name);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
             CardRowPosition++;
-            if (normaldraw)
-                currentsum += drawn;
+            if (normaldraw && !(currentCard.CardRawValue > 10))
+                currentsum += currentCard.CardRawValue;
+            else if (normaldraw)
+            {
+                currentsum += 10;
+            }
             if (currentsum > 21 && highAce == true)
             {
                 currentsum -= 10;

@@ -13,6 +13,8 @@ namespace CardGames
         [DataMember]
         private int currentfunds = 100;
         private int bet = 0;
+        private int originalFunds;
+        private int originalBet;
         [DataMember]
         private string name;
 
@@ -33,11 +35,26 @@ namespace CardGames
             set { bet = value; }
         }
 
+        // For debugging purposes only...
+        public int OriginalFunds
+        {
+            get { return originalFunds; }
+            set { originalFunds = value; }
+        }
+
+        // For debugging purposes only...
+        public int OriginalBet
+        {
+            get { return originalBet; }
+            set { originalBet = value; }
+        }
+
         public void PlayerBet()
         {
             ScreenOperations.ClearGameLine(0, 15, 43);
             string betText = ($"You have ${Funds}. Bet: ");
             Console.Write(betText, Funds);
+            OriginalFunds = Funds; // For debugging
             int cursorPosition = betText.Length;
             bool possibleBet = false;
             bool formatexception = false;
@@ -88,7 +105,9 @@ namespace CardGames
                     possibleBet = true;
                 }
             }
+            OriginalBet = Bet; // For Debugging
             Funds -= Bet;
+            ScreenOperations.DebugView(ToString());
         }
 
         public void Win()
@@ -135,6 +154,12 @@ namespace CardGames
             Console.WriteLine("Come back once you get more money from the ATM!");
             Console.WriteLine("...but since this is all make-believe...just run the game again! Lucky you!");
             return 2;
+        }
+
+        // For debugging...
+        public override string ToString()
+        {
+            return "Player Name: " + Name + "\tFunds: " + Funds + "\tBet: " + Bet + "\tOriginal Bet: " + OriginalBet + "\t Original Funds: " + OriginalFunds;
         }
     }
 }

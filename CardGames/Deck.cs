@@ -11,57 +11,51 @@ namespace CardGames
     class Deck
     {
         [DataMember]
-        private int[] Cards = CreateCards();
-        [DataMember]
-        private bool[] drawnStatus = new bool[52];
-        [DataMember]
-        private bool[] currentlyInPlay = new bool[52];
+        private Card[] Cards;
         [DataMember]
         private int cardcount = 52;
-
-        private static int[] CreateCards()
-        {
-            int[] uninitializedDeck = new int[52];
-            for(int i = 0; i < uninitializedDeck.Length; i++)
-            {
-                uninitializedDeck[i] = i + 1;
-            }
-            return uninitializedDeck;
-        }
         
-        public Deck() { }
-
-        public int DrawSpecificCard(string name, int value)
+        public Deck() 
         {
-            int currentcard = GetCardActualIndex(name, value);
-            Console.WriteLine(currentcard);
-            if (currentcard >= 0 && currentcard <= 52)
+            string suitName = null;
+            Cards = new Card[52];
+            int currentCard = 0;
+            for (int i = 1; i <= 4; i++)
             {
-                if (drawnStatus[currentcard - 1] == false)
+                switch (i)
                 {
-                    drawnStatus[currentcard - 1] = true;
-                    Console.WriteLine(Cards[currentcard - 1]);
-                    return Cards[currentcard - 1];
+                    case 1:
+                        suitName = "Hearts";
+                        break;
+                    case 2:
+                        suitName = "Spades";
+                        break;
+                    case 3:
+                        suitName = "Clubs";
+                        break;
+                    case 4:
+                        suitName = "Diamonds";
+                        break;
                 }
-                else
+                for (int j = 1; j < 14; j++)
                 {
-                    Console.WriteLine("Unable to draw that card!");
+                    Cards[currentCard] = new Card(j, suitName);
+                    currentCard++;
                 }
             }
-            return -1;
         }
 
-        public int DrawActualCard()
+        public Card DrawCard()
         {
             Random x = new Random();
             bool successfuldraw = false;
             while(!successfuldraw)
             {
                 int triedcard = x.Next(52);
-                if(!drawnStatus[triedcard] && !currentlyInPlay[triedcard])
+                if(!Cards[triedcard].InPlay && !Cards[triedcard].Drawn)
                 {
-                    drawnStatus[triedcard] = true;
-                    currentlyInPlay[triedcard] = true;
+                    Cards[triedcard].Drawn = true;
+                    Cards[triedcard].InPlay = true;
                     returntodeck();
                     //Console.WriteLine(Cards[triedcard]);
                     successfuldraw = true;
@@ -69,131 +63,26 @@ namespace CardGames
                 }
                 //Console.WriteLine("Unsuccessful. Retrying Random...");
             }
-            return -1;
+            return new Card();
         }
-
-        public (int, string, string, ConsoleColor) DrawCard()
-        {
-            int currentcard = DrawActualCard();
-            string cardname = "";
-            string suit = "";
-            ConsoleColor color = ConsoleColor.Black;
-            if(currentcard >= 1 && currentcard <= 13)
-            {
-                
-                cardname = GetSpecialName(currentcard);
-                suit = "Hearts";
-                color = ConsoleColor.Red;
-                if(currentcard > 10)
-                {
-                    currentcard = 10;
-                }
-                return (currentcard, cardname, suit, color);
-            }
-            if (currentcard >= 14 && currentcard <= 26)
-            {
-                currentcard -= 13;
-                cardname = GetSpecialName(currentcard);
-                suit = "Spades";
-                if(currentcard > 10)
-                {
-                    currentcard = 10;
-                }
-                return (currentcard, cardname, suit, color);
-            }
-            if(currentcard >= 27 && currentcard <= 39)
-            {
-                currentcard -= 26;
-                cardname = GetSpecialName(currentcard);
-                suit = "Clubs";
-                if(currentcard > 10)
-                {
-                    currentcard = 10;
-                }
-                return (currentcard, cardname, suit, color);
-            }
-            if(currentcard >= 40 && currentcard <= 52)
-            {
-                currentcard -= 39;
-                cardname = GetSpecialName(currentcard);
-                suit = "Diamonds";
-                color = ConsoleColor.Red;
-                if(currentcard > 10)
-                {
-                    currentcard = 10;
-                }
-                return (currentcard, cardname, suit, color);
-            }
-            return (-1, "Failed", "Failed", ConsoleColor.Gray);
-        }
-        
-        public int GetCardActualIndex(string name, int value)
-        {
-            name = name.ToUpper();
-            switch(name)
-            {
-                case "HEARTS":
-                case "HEART":
-                    break;
-                case "SPADE":
-                case "SPADES":
-                    value = value + 13;
-                    break;
-                case "CLUB":
-                case "CLUBS":
-                    value = value + 26;
-                    break;
-                case "DIAMONDS":
-                case "DIAMOND":
-                    value = value + 39;
-                    break;
-                default:
-                    Console.WriteLine("Invalid Input");
-                    return -1;
-            }
-            return value;
-        }
-
-        
         private void returntodeck()
         {
             cardcount--;
             if(cardcount == 0)
             {
-                for (int i = 0; i < drawnStatus.Length; i++)
-                    drawnStatus[i] = false;
+                for (int i = 0; i < Cards.Length; i++)
+                    Cards[i].Drawn = false;
                 cardcount = 52;
             }
         }
 
         public void CardsNoLongerInPlay()
         {
-            for(int i = 0; i < currentlyInPlay.Length; i++)
+            for(int i = 0; i < Cards.Length; i++)
             {
-                if (currentlyInPlay[i])
-                    currentlyInPlay[i] = false;
+                if (Cards[i].InPlay)
+                    Cards[i].InPlay = false;
             }
-        }
-
-        private string GetSpecialName(int currentcard)
-        {
-            if(currentcard == 1)
-            {
-                return "Ace";
-            }
-            if(currentcard == 11)
-            {
-                return "Jack";
-            }
-            if(currentcard == 12)
-            {
-                return "Queen";
-            }
-            if(currentcard == 13)
-            {
-                return "King";
-            }
-            return currentcard.ToString();
         }
     }
 }

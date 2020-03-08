@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Card.cs" />
     <Compile Include="CardPlayer.cs" />
     <Compile Include="Dealer.cs" />
     <Compile Include="Deck.cs" />
