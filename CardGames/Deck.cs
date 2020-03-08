@@ -19,28 +19,26 @@ namespace CardGames
         {
             string suitName = null;
             Cards = new Card[52];
-            int currentCard = 0;
-            for (int i = 1; i <= 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 switch (i)
                 {
-                    case 1:
+                    case 0:
                         suitName = "Hearts";
                         break;
-                    case 2:
+                    case 1:
                         suitName = "Spades";
                         break;
-                    case 3:
+                    case 2:
                         suitName = "Clubs";
                         break;
-                    case 4:
+                    case 3:
                         suitName = "Diamonds";
                         break;
                 }
-                for (int j = 1; j < 14; j++)
+                for (int j = 0; j < 13; j++)
                 {
-                    Cards[currentCard] = new Card(j, suitName);
-                    currentCard++;
+                    Cards[(i*13)+j] = new Card(j+1, suitName);
                 }
             }
         }
